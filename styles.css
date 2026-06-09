@@ -1,0 +1,461 @@
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+body {
+    background: #0a0a0a;
+    color: #e0e0e0;
+    overflow: hidden;
+    user-select: none;
+    touch-action: none;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+    body {
+        transform: rotate(90deg);
+        transform-origin: left top;
+        width: 100vh;
+        height: 100vw;
+        overflow-x: hidden;
+    }
+}
+
+.gui {
+    position: fixed; top: 20px; left: 20px;
+    background: #1b1b1e;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 8px 32px #0006;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .gui {
+        transform: scale(0.9);
+        transform-origin: top left;
+        padding: 16px;
+        border-radius: 16px;
+    }
+    .btn {
+        width: 44px; height: 44px;
+        font-size: 20px;
+        border-radius: 10px;
+    }
+    .btn-text {
+        height: 40px;
+        font-size: 14px;
+        padding: 0 12px;
+    }
+    .btn-label {
+        font-size: 11px;
+    }
+    .section-title {
+        font-size: 13px;
+    }
+    .info-bar {
+        font-size: 13px;
+    }
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.section-title {
+    font-size: 11px;
+    color: #888;
+    padding-left: 2px;
+}
+.btn-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+.btn-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+.btn {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a2e;
+    color: #ddd;
+    font-size: 16px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.btn:hover {
+    background: #3a3a3e;
+}
+.btn.active {
+    background: #0077ff;
+    color: #fff;
+}
+.btn-label {
+    font-size: 9px;
+    color: #aaa;
+    white-space: nowrap;
+}
+.btn-text {
+    padding: 0 10px;
+    height: 32px;
+    width: auto;
+    font-size: 12px;
+    font-weight: 500;
+}
+.info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 0 2px;
+    font-size: 11px;
+}
+.mode {
+    font-weight: 600;
+    color: #0fcc55;
+}
+.coord {
+    background: #111;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #0f0;
+}
+#canvas {
+    display: block;
+    background: #070707;
+}
+.game-hud {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #111;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #0f0;
+    z-index: 9999;
+    display: none;
+}
+.top-right-group {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    z-index: 9999;
+    display: none;
+}
+.top-btn {
+    width: 44px;
+    height: 44px;
+    background: #1b1b1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px #0004;
+    color: #ddd;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+.top-btn:hover {
+    background: #2a2a2e;
+    transform: scale(1.05);
+}
+.top-btn:active {
+    transform: scale(0.95);
+}
+.game-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 120px;
+    transform: translateX(-50%);
+    background: #111;
+    color: #0f0;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.game-toast.show {
+    opacity: 1;
+}
+
+.mobile-btn {
+    position: fixed;
+    z-index: 9999;
+    display: none;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    color: #fff;
+    font-size: 28px;
+    touch-action: none;
+    user-select: none;
+}
+.mobile-btn:active {
+    background: rgba(255,255,255,0.3);
+}
+#mobileLeft  { left: 20px; bottom: 30px; }
+#mobileRight { left: 100px; bottom: 30px; }
+#mobileDown  { right: 20px; bottom: 30px; }
+#mobileJump  { right: 20px; bottom: 110px; }
+
+.edit-cam-group {
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+    display: none;
+    z-index: 9998;
+    width: 180px;
+    height: 180px;
+}
+.edit-cam-btn {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 22px;
+    touch-action: none;
+    user-select: none;
+    display: grid;
+    place-items: center;
+}
+.edit-cam-btn:active {
+    background: rgba(255,255,255,0.25);
+}
+#camUp    { left: 62px; top: 0; }
+#camLeft  { left: 4px; top: 62px; }
+#camRight { left: 120px; top: 62px; }
+#camDown  { left: 62px; top: 120px; }
+
+/* ===================================================== */
+/* 翻页式工具栏样式 */
+/* ===================================================== */
+.toolbar-pages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 4px 0;
+    border-bottom: 1px solid #333;
+}
+.page-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: #2a2a2e;
+    color: #ddd;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.page-btn:hover {
+    background: #3a3a3e;
+}
+.page-btn:active {
+    background: #0077ff;
+    color: #fff;
+}
+.page-indicator {
+    font-size: 11px;
+    color: #888;
+    min-width: 30px;
+    text-align: center;
+}
+.tool-page {
+    display: none;
+}
+.tool-page.active {
+    display: block;
+}
+
+/* ===================================================== */
+/* 地图管理窗口样式 */
+/* ===================================================== */
+.map-manager-window {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #1b1b1e;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px #0006;
+    z-index: 9999;
+    min-width: 200px;
+    display: none; /* 默认隐藏 */
+}
+.map-manager-window.show {
+    display: block;
+}
+.window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid #333;
+    font-size: 12px;
+    font-weight: 600;
+    color: #ddd;
+}
+.window-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: #2a2a2e;
+    color: #ddd;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.window-close:hover {
+    background: #ff4444;
+    color: #fff;
+}
+.window-content {
+    padding: 12px;
+}
+.btn-toggle-play {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #0077ff;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.btn-toggle-play:hover {
+    background: #0066dd;
+}
+.btn-fullscreen {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #2a2a2e;
+    color: #ddd;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.btn-fullscreen:hover {
+    background: #3a3a3e;
+}
+.btn-row-split {
+    display: flex;
+    gap: 8px;
+}
+.btn-half {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #2a2a2e;
+    color: #ddd;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.15s;
+    white-space: nowrap;
+}
+.btn-half:hover {
+    background: #3a3a3e;
+}
+.btn-half.active {
+    background: #0a84ff;
+    border-color: #0a84ff;
+    color: #fff;
+}
+
+/* 编辑模式下显示地图管理按钮 */
+body.edit-mode #topGroup {
+    display: flex !important;
+}
+
+/* 游玩模式下隐藏工具栏按钮 */
+body.play-mode .tool-toggle-btn {
+    display: none !important;
+}
+
+/* ===================================================== */
+/* 工具栏展开/收缩按钮样式 */
+/* ===================================================== */
+.tool-toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    background: #1b1b1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px #0004;
+    z-index: 10000;
+    /* display由JavaScript控制 */
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    user-select: none;
+}
+.tool-toggle-btn:hover {
+    background: #2a2a2e;
+    transform: scale(1.05);
+}
+.tool-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+/* ===================================================== */
+/* 工具栏窗口样式 */
+/* ===================================================== */
+.tool-window {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #1b1b1e;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px #0006;
+    z-index: 9999;
+    min-width: 200px;
+    display: none; /* 默认隐藏 */
+}
+.tool-window.show {
+    display: block;
+}
+.tool-window .window-content {
+    padding: 12px;
+}
+.tool-window .info-bar {
+    margin-bottom: 8px;
+}
+.tool-window .toolbar-pages {
+    margin-bottom: 8px;
+}

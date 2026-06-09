@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>I Wanna Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 左上角：展开/收缩按钮 -->
+<div class="tool-toggle-btn" id="toolToggleBtn" style="display: none;">📂</div>
+
+<!-- 左上角：工具栏窗口（可展开/收缩） -->
+<div class="tool-window" id="toolWindow">
+    <div class="window-header">
+        <span>工具栏</span>
+        <button class="window-close" id="closeToolWindow">×</button>
+    </div>
+    <div class="window-content">
+        <div class="info-bar">
+            <span class="mode" id="modeText">编辑模式</span>
+            <span class="coord" id="coordText">坐标：0.0 , 0.0</span>
+        </div>
+        
+        <!-- 工具栏翻页控件 -->
+        <div class="toolbar-pages">
+            <button class="page-btn" id="pagePrev">◀</button>
+            <span class="page-indicator" id="pageIndicator">1/3</span>
+            <button class="page-btn" id="pageNext">▶</button>
+        </div>
+        
+        <!-- 页面1：基础工具 -->
+        <div class="tool-page active" id="page1">
+            <div class="section">
+                <div class="section-title">基础工具</div>
+                <div class="btn-row">
+                    <div class="btn-wrap">
+                        <button class="btn active" id="player">🏠</button>
+                        <span class="btn-label">出生</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="block">🧱</button>
+                        <span class="btn-label">方块</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="spike">💀</button>
+                        <span class="btn-label">尖刺</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="goal">🏁</button>
+                        <span class="btn-label">终点</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="checkpoint">🚩</button>
+                        <span class="btn-label">存档点</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页面2：机关道具 -->
+        <div class="tool-page" id="page2">
+            <div class="section">
+                <div class="section-title">机关道具</div>
+                <div class="btn-row">
+                    <div class="btn-wrap">
+                        <button class="btn" id="jump">🪜</button>
+                        <span class="btn-label">梯子</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="tramp">🔩</button>
+                        <span class="btn-label">弹簧</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="boost">⚡</button>
+                        <span class="btn-label">加速</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="ice">❄️</button>
+                        <span class="btn-label">冰面</span>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn" id="oneway">⬆️</button>
+                        <span class="btn-label">单向板</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页面3：占位 -->
+        <div class="tool-page" id="page3">
+            <div class="section">
+                <div class="section-title">其他</div>
+                <div class="btn-row" style="color:#666;text-align:center;padding:20px;">
+                    更多工具开发中...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 右上角：地图管理窗口 -->
+<div class="map-manager-window" id="mapManagerWindow">
+    <div class="window-header">
+        <span>地图管理</span>
+        <button class="window-close" id="closeMapManager">×</button>
+    </div>
+    <div class="window-content">
+        <div class="btn-row">
+            <div class="btn-wrap">
+                <button class="btn" id="undo">↩️</button>
+                <span class="btn-label">撤销</span>
+            </div>
+            <div class="btn-wrap">
+                <button class="btn" id="redo">↪️</button>
+                <span class="btn-label">重做</span>
+            </div>
+            <div class="btn-wrap">
+                <button class="btn" id="erase">🗑️</button>
+                <span class="btn-label">擦除</span>
+            </div>
+            <div class="btn-wrap">
+                <button class="btn" id="clear">🧹</button>
+                <span class="btn-label">清空</span>
+            </div>
+            <div class="btn-wrap">
+                <button class="btn" id="export">💾</button>
+                <span class="btn-label">导出</span>
+            </div>
+            <div class="btn-wrap">
+                <button class="btn" id="import">📂</button>
+                <span class="btn-label">导入</span>
+            </div>
+        </div>
+        <div class="btn-row" style="margin-top:10px;">
+            <button class="btn-toggle-play" id="btnToggle">切换游玩</button>
+        </div>
+        <div class="btn-row btn-row-split" style="margin-top:10px;">
+            <button class="btn-half" id="btnFullscreen">⛶ 全屏</button>
+            <button class="btn-half" id="btnMobile">🎮 虚拟按钮</button>
+        </div>
+    </div>
+</div>
+
+<!-- 右上角悬浮按钮 -->
+<div class="top-right-group" id="topGroup">
+    <button class="top-btn" id="openMapManager">📋</button>
+</div>
+
+<div class="game-hud" id="gameHud">
+    坐标：X 0.0 , Y 0.0<br>
+    速度：X 0.00 , Y 0.00<br>
+    状态：地面 / 正常<br>
+    脚下：无
+</div>
+<div class="game-toast" id="gameToast"></div>
+
+<button class="mobile-btn" id="mobileLeft">←</button>
+<button class="mobile-btn" id="mobileRight">→</button>
+<button class="mobile-btn" id="mobileJump">↑</button>
+<button class="mobile-btn" id="mobileDown">↓</button>
+
+<div class="edit-cam-group" id="camGroup">
+    <button class="edit-cam-btn" id="camUp">↑</button>
+    <button class="edit-cam-btn" id="camLeft">←</button>
+    <button class="edit-cam-btn" id="camRight">→</button>
+    <button class="edit-cam-btn" id="camDown">↓</button>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script src="modules/constants.js"></script>
+<script src="modules/renderer.js"></script>
+<script src="modules/input.js"></script>
+<script src="modules/camera.js"></script>
+<script src="modules/map.js"></script>
+<script src="modules/ui.js"></script>
+<script src="modules/player.js"></script>
+<script src="modules/io.js"></script>
+<script src="modules/main.js"></script>
+</body>
+</html>
